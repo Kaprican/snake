@@ -16,7 +16,12 @@ public class Level implements Serializable {
   @Getter
   @Setter
   private Food food;
-
+  @Getter
+  @Setter
+  private Block block;
+  @Getter
+  @Setter
+  private Set<Platform> platforms;
   @Getter
   private int width;
   @Getter
@@ -50,6 +55,7 @@ public class Level implements Serializable {
     subLevelSeparators = new HashSet<>();
     entrances = new HashSet<>();
     subLevels = new HashMap<>();
+    platforms = new HashSet<>();
     width = config.getFieldWidth();
     height = config.getFieldHeight();
     //generateFood();
@@ -66,8 +72,13 @@ public class Level implements Serializable {
     food = new Food(findFreeSpot());
   }
 
+  public void generateBlock(){
+    int blockValue = rnd.nextInt(4);
+    block = new Block(findFreeSpot(), blockValue);
+  }
+
   public void createRandomField() {
-    mazeLocations = new HashSet();
+    mazeLocations = new HashSet<>();
     for (int x = 0; x < width; x++) {
       for (int y = 0; y < height; y++) {
         if (new Random().nextInt(50) == 0) {
@@ -81,7 +92,7 @@ public class Level implements Serializable {
     generateFood();
   }
 
-  public void initAxis() {
+  private void initAxis() {
     for (Separator separator : getSubLevelSeparators()) {
       if (separator.isHorizontal()) {
         xAxis = separator.getCoordinate();
@@ -91,8 +102,33 @@ public class Level implements Serializable {
     }
   }
 
-
-  public Point findFreeSpot() {
+  public void createSublevels(Set<Separator> separators){
+    setSubLevelSeparators(separators);
+    initAxis();
+  }
+/*
+   private Point findFreeSpot() {
+     boolean repeat = true;
+       while (repeat) {
+           int x = rnd.nextInt(width - 1);
+           int y = rnd.nextInt(height - 1);
+           Point point = new Point(x, y);
+           for (Wall wall : mazeLocations) {
+             if (wall.getLocation().x == x && wall.getLocation().y == y) {
+               repeat = true;
+               break;
+             }
+           }
+           for (Snake snake : snakesBodies.keySet()) {
+             if (findSnakePartsOnBoard(snake).contains(point)){
+               continue;
+             }
+           }
+           return point;
+       }
+   }
+*/
+  private Point findFreeSpot() {
     while (true) {
       boolean repeat = false;
       int x = rnd.nextInt(width - 1);
@@ -110,6 +146,12 @@ public class Level implements Serializable {
             repeat = true;
             break outer;
           }
+        }
+      }
+      for (Platform platform : platforms) {
+        if (platform.getLocation().x == x && platform.getLocation().y == y) {
+          repeat = true;
+          break;
         }
       }
       if (!repeat) {

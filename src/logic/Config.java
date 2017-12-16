@@ -37,7 +37,7 @@ public class Config implements Serializable {
     timerTick = tick;
     textColor = Color.GREEN;
     buttonBordColor = Color.GREEN;
-    backgroundColor = Color.BLACK;
+    backgroundColor = Color.white;
     font = new Font("Comic Sans MS", Font.BOLD, 20);
   }
 }

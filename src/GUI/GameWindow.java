@@ -104,6 +104,7 @@ public class GameWindow extends JFrame implements ActionListener {
       }
       game.tryToDie(snake);
       game.tryEatFood(game, snake);
+      game.tryTakeBlock(snake);
     }
     if (game.getCurrentLevel().getSubLevelSeparators().size() == 2) {
       game.findSnakesInSublevels();

@@ -1,5 +1,6 @@
 package logic;
 
+import java.awt.*;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -87,6 +88,7 @@ public class Serialization {
     Set<Wall> maze = new HashSet<>();
     Set<Entrance> entrances = new HashSet<>();
     Set<Separator> separators = new HashSet<>();
+    Set<Platform> platforms = new HashSet<>();
 
     int width = 0;
     for (String line : lines) {
@@ -104,6 +106,9 @@ public class Serialization {
         if (line.charAt(j) == '#') {
           maze.add(new Wall(j, i));
         }
+         if (line.charAt(j) == '@') {
+           platforms.add(new Platform(new Point(j, i), 3));
+         }
         if (Character.isLowerCase(line.charAt(j))) {
           //вход\выход из уровня, открытый
           entrances.add(new Entrance(j, i, Character.toLowerCase(line.charAt(j)), true));
@@ -121,9 +126,10 @@ public class Serialization {
     Level level = new Level(config, levelName);
     level.setMazeLocations(maze);
     level.setEntrances(entrances);
-    level.setSubLevelSeparators(separators);
-    level.initAxis();
+    level.createSublevels(separators);
+    level.setPlatforms(platforms);
     level.generateFood();
+    level.generateBlock();
     return level;
   }
 

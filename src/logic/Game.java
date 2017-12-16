@@ -151,6 +151,20 @@ public class Game {
     }
   }
 
+  public void tryTakeBlock(Snake snake){
+    Point[] snakeLocations = currentLevel.getSnakesBodies().get(snake);
+    Point snakeHead = snakeLocations[0];
+    if (snakeHead.x == currentLevel.getBlock().getLocation().x
+        && snakeHead.y == currentLevel.getBlock().getLocation().y) {
+        int blockValue = currentLevel.getBlock().getValue();
+        if (snake.getLength() < blockValue){
+            snake.die();
+        }
+        snake.takeBlock(blockValue);
+        currentLevel.generateBlock();
+    }
+  }
+
   public void moveSnake(Level level, Snake snake) {
     Point[] snakeLocations = level.getSnakesBodies().get(snake);
     Point snakeHead = snakeLocations[0];

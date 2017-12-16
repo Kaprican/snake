@@ -7,15 +7,11 @@ import java.awt.Point;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
-import logic.Config;
-import logic.Entrance;
-import logic.Game;
-import logic.Level;
-import logic.Snake;
-import logic.Sublevels;
-import logic.Wall;
+
+import logic.*;
 import lombok.Getter;
 
 
@@ -32,8 +28,10 @@ public class GameFieldPanel extends JPanel implements Serializable {
   private Image headIm;
   private Image secondHeadIm;
   private Image closedImage;
-  private Image background;
-  private Image blackRoom;
+  private Image backgroundImage;
+  private Image blackRoomIm;
+  private Image blockIm;
+  private Image platformIm;
 
   @Getter
   private Level level;
@@ -42,8 +40,6 @@ public class GameFieldPanel extends JPanel implements Serializable {
     initGameSettings(game, currentLevel);
 
   }
-
-
 
   private void initGameSettings(Game game, Level currentLevel) {
     this.game = game;
@@ -82,9 +78,13 @@ public class GameFieldPanel extends JPanel implements Serializable {
     ImageIcon c = new ImageIcon("closed_lock.png");
     closedImage = c.getImage();
     ImageIcon b = new ImageIcon("House.png");
-    background = b.getImage();
+    backgroundImage = b.getImage();
     ImageIcon r = new ImageIcon("light_off.jpg");
-    blackRoom = r.getImage();
+    blackRoomIm = r.getImage();
+    ImageIcon bl = new ImageIcon("Block.png");
+    blockIm = bl.getImage();
+    ImageIcon pl = new ImageIcon("platform.png");
+    platformIm = pl.getImage();
   }
 
   private void paintGameOver(Graphics g) {
@@ -142,13 +142,26 @@ public class GameFieldPanel extends JPanel implements Serializable {
     g.drawRect(0, 0, width * pixel, height * pixel);
   }
 
+  private void paintPlatforms(Graphics g) {
+    Set<Platform> platforms = level.getPlatforms();
+    for (Platform platform : platforms) {
+      Point location = platform.getLocation();
+      g.drawImage(platformIm, location.x * pixel, location.y * pixel, this);
+    }
+  }
+
+   private void paintBlock(Graphics g) {
+     Point location = level.getBlock().getLocation();
+     g.drawImage(blockIm, location.x * pixel, location.y * pixel, this);
+   }
+
   private void paintFood(Graphics g) {
     Point location = level.getFood().getLocation();
     g.drawImage(foodIm, location.x * pixel, location.y * pixel, this);
   }
 
   private void paintBackground(Graphics g) {
-    g.drawImage(background, 0, 0, this);
+    g.drawImage(backgroundImage, 0, 0, this);
   }
 
   private void handleSublevels(Graphics g) {
@@ -171,7 +184,7 @@ public class GameFieldPanel extends JPanel implements Serializable {
   private void paintHidingPicture(Graphics g, int xFrom, int xTo, int yFrom, int yTo) {
     int width = (xTo - xFrom)* pixel;
     int height = (yTo - yFrom) * pixel;
-    g.drawImage(blackRoom, xFrom * pixel, yFrom * pixel, width, height, this);
+    g.drawImage(blackRoomIm, xFrom * pixel, yFrom * pixel, width, height, this);
   }
 
   @Override
@@ -193,6 +206,8 @@ public class GameFieldPanel extends JPanel implements Serializable {
         paintWalls(g);
         paintEntrances(g);
         paintFood(g);
+        paintBlock(g);
+        paintPlatforms(g);
         if (game.getCurrentLevel().getSubLevels().size() != 0) {
           handleSublevels(g);
         }
