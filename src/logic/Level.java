@@ -121,7 +121,7 @@ public class Level implements Serializable {
   }
 
   public void generateBlock(){
-    int blockValue = rnd.nextInt(4);
+    int blockValue = rnd.nextInt(3) + 1;
     block = new Block(findFreeSpot(), blockValue);
   }
 

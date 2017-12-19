@@ -133,12 +133,32 @@ public class GameFieldPanel extends JPanel implements Serializable {
         offset = 100;
       } else {
         g.setColor(Color.cyan);
-        offset = 150;
+        offset = 200;
       }
       g.drawString("Score:", width * pixel + 100, offset);
       g.drawString(Integer.toString(snake.getLength() * 10), width * pixel + 100, offset + 25);
     }
   }
+
+  private void paintCapacity(Graphics g){
+      for (int i=0; i < game.getSnakes().size(); i++) {
+          Snake snake = game.getSnakes().get(i);
+          int offset;
+          if (i == 0) {
+              g.setColor(Color.yellow);
+              offset = 150;
+          } else {
+              g.setColor(Color.cyan);
+              offset = 250;
+          }
+          if(snake.getCapacity() == snake.getLength()){
+              g.setColor(Color.red);
+          }
+          g.drawString("Capasity:", width * pixel + 100, offset);
+          g.drawString( snake.getCapacity() + "/" + snake.getLength(), width * pixel + 100, offset + 25);
+      }
+  }
+
 
   private void paintFrame(Graphics g) {
     g.setColor(Color.green);
@@ -211,6 +231,7 @@ public class GameFieldPanel extends JPanel implements Serializable {
         paintFood(g);
         paintBlock(g);
         paintPlatforms(g);
+        paintCapacity(g);
         if (game.getCurrentLevel().getSubLevels().size() != 0) {
           handleSublevels(g);
         }

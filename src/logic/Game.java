@@ -15,7 +15,7 @@ public class Game {
   private List<Snake> snakes = new ArrayList<>();
   private int score;
   private Config config;
-  private Map<Integer, Entrance> closedEntrances = new HashMap<>();
+  private Map<Platform, Entrance> closedEntrances = new HashMap<>();
   private List<Level> levels = new ArrayList<>();
   private boolean paused = false;
   private Level currentLevel;
@@ -31,9 +31,9 @@ public class Game {
 
   public Config getConfig() { return config; }
 
-  public Map<Integer, Entrance> getClosedEntrances() { return  closedEntrances; }
+  public Map<Platform, Entrance> getClosedEntrances() { return  closedEntrances; }
 
-  public void setClosedEntrances(Map<Integer, Entrance> value) { closedEntrances = value; }
+  public void setClosedEntrances(Map<Platform, Entrance> value) { closedEntrances = value; }
 
   public List<Level> getLevels() { return levels; }
 
@@ -81,21 +81,21 @@ public class Game {
   }
 
   private void tryToOpenEntrance() {
-    Integer score = getScore();
-    if (getClosedEntrances().containsKey(score)) {
-      Entrance openingEntrance = getClosedEntrances().get(score);
       opened:
       for (Level level : levels) {
-        for (Entrance entrance : level.getEntrances()) {
-          if (entrance == openingEntrance) {
-            entrance.setOpen(true);
-            break opened;
+          for (Platform platform : level.getPlatforms()) {
+              for (Entrance entrance : level.getEntrances()) {
+                  if (platform.getValue() == platform.getCurrentValue()) {
+                      entrance.setOpen(true);
+
+                      getClosedEntrances().remove(platform);
+                      break opened;
+                  }
+              }
           }
-        }
       }
-      getClosedEntrances().remove(score);
-    }
   }
+
 
   /**
    * Найти все закрытые входы в игре (на всех уровнях) и поставить им в соответствие очки,
@@ -104,16 +104,17 @@ public class Game {
    * @param levels уровни, которые существуют в этой игре
    * @return словарик, где ключь - это очки, а значение - "вход"/дверь уровня
    */
-  private Map<Integer, Entrance> getClosedEntrances(List<Level> levels) {
-    Map<Integer, Entrance> closedEntrances = new HashMap<>();
-    Integer count = 50;
+  private Map<Platform, Entrance> getClosedEntrances(List<Level> levels) {
+    Map<Platform, Entrance> closedEntrances = new HashMap<>();
+    //Integer count = 50;
     for (Level level : levels) {
-      for (Entrance entrance : level.getEntrances()) {
-        if (!entrance.isOpen()) {
-          closedEntrances.put(count, entrance);
-          count += 50;
+        for(Platform platform : level.getPlatforms()){
+            for (Entrance entrance : level.getEntrances()) {
+                if (!entrance.isOpen()) {
+                    closedEntrances.put(platform, entrance);
+                 }
+            }
         }
-      }
     }
 
     return closedEntrances;
@@ -170,7 +171,7 @@ public class Game {
     if (snakeHead.x == currentLevel.getBlock().getLocation().x
         && snakeHead.y == currentLevel.getBlock().getLocation().y) {
         int blockValue = currentLevel.getBlock().getValue();
-        if (snake.getLength() < blockValue){
+        if (snake.getLength() < blockValue + snake.getCapacity()){
             snake.die();
         }
         snake.takeBlock(blockValue);
@@ -184,10 +185,18 @@ public class Game {
       for(Platform platform: currentLevel.getPlatforms()){
           if (snakeHead.x == platform.getLocation().x
               && snakeHead.y == platform.getLocation().y) {
-              if (platform.getCurrentValue() + snake.getCapacity() <= platform.getValue()) {
+              if (platform.getCurrentValue() + snake.getCapacity() < platform.getValue()) {
                   platform.setCurrentValue(platform.getCurrentValue() + snake.getCapacity());
+                  snake.setCapacity(0);
               }
-
+              else{
+                  int countToFull = platform.getValue() - platform.getCurrentValue();
+                  snake.setCapacity(snake.getCapacity() - countToFull);
+                  platform.setCurrentValue(platform.getValue());
+                  for(Entrance entrance: currentLevel.getEntrances()){
+                      entrance.setOpen(true);
+                  }
+              }
           }
           /*snake.eatFood();
           currentLevel.generateFood();

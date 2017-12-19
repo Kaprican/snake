@@ -86,6 +86,6 @@ public class Snake {
   }
 
   public void takeBlock(int value) {
-      capacity = value;
+      capacity += value;
   }
 }
