@@ -178,6 +178,25 @@ public class Game {
     }
   }
 
+  public void tryPutBlocks(Snake snake){
+      Point[] snakeLocations = currentLevel.getSnakesBodies().get(snake);
+      Point snakeHead = snakeLocations[0];
+      for(Platform platform: currentLevel.getPlatforms()){
+          if (snakeHead.x == platform.getLocation().x
+              && snakeHead.y == platform.getLocation().y) {
+              if (platform.getCurrentValue() + snake.getCapacity() <= platform.getValue()) {
+                  platform.setCurrentValue(platform.getCurrentValue() + snake.getCapacity());
+              }
+
+          }
+          /*snake.eatFood();
+          currentLevel.generateFood();
+          int i = snake.getLength() - 1;
+          snakeLocations[i] = new Point(snakeLocations[i - 1].x, snakeLocations[i - 1].y); */
+      }
+
+  }
+
   public void moveSnake(Level level, Snake snake) {
     Point[] snakeLocations = level.getSnakesBodies().get(snake);
     Point snakeHead = snakeLocations[0];
