@@ -85,7 +85,7 @@ public class GameFieldPanel extends JPanel implements Serializable {
     blackRoomIm = r.getImage();
     ImageIcon bl = new ImageIcon("Block.png");
     blockIm = bl.getImage();
-    ImageIcon pl = new ImageIcon("platform.png");
+    ImageIcon pl = new ImageIcon("platf.jpg");
     platformIm = pl.getImage();
   }
 
@@ -224,13 +224,13 @@ public class GameFieldPanel extends JPanel implements Serializable {
         paintScores(g);
         return;
       } else {
+        paintPlatforms(g);
         paintSnake(g, snake, i != 0);
         paintFrame(g);
         paintWalls(g);
         paintEntrances(g);
         paintFood(g);
         paintBlock(g);
-        paintPlatforms(g);
         paintCapacity(g);
         if (game.getCurrentLevel().getSubLevels().size() != 0) {
           handleSublevels(g);
