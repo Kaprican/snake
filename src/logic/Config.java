@@ -25,7 +25,7 @@ public class Config implements Serializable {
 
   public int getWindowWidth() {return windowWidth; }
 
-  public int getPixelSize () { return  windowHeight; }
+  public int getPixelSize () { return  pixelSize; }
 
   public int getTimerTick () { return  timerTick; }
 

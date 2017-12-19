@@ -102,7 +102,8 @@ public class GameFieldPanel extends JPanel implements Serializable {
   }
 
   private void paintWalls(Graphics g) {
-    for (Wall wall : level.getMazeLocations()) {
+    Set<Wall> mazeLocations = level.getMazeLocations();
+    for (Wall wall : mazeLocations) {
       g.drawImage(wallIm, wall.getLocation().x * pixel, wall.getLocation().y * pixel, this);
     }
   }

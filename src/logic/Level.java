@@ -14,22 +14,33 @@ import lombok.Setter;
 public class Level implements Serializable {
 
     private Food food;
+    private Block block;
+    private Set<Platform> platforms;
+    private int width;
+    private int height;
+    private Random rnd = new Random();
+    private String levelName;
+    private Set<Wall> mazeLocations;
+    private Set<Separator> subLevelSeparators;
+    private Set<Entrance> entrances;
+    private Map<Snake, Point[]> snakesBodies;
+    private int xAxis;
+    private int yAxis;
+    private Map<Sublevels, List<Point>> subLevels;
+
     public Food getFood(){
       return food;
-  }
+    }
     public void setFood(Food food){
         this.food = food;
     }
-    private Block block;
+
     public Block getBlock(){
       return block;
     }
     public void setBlock(Block block) {
         this.block = block;
     }
-
-
-    private Set<Platform> platforms;
 
     public Set<Platform> getPlatforms() {
         return platforms;
@@ -38,37 +49,27 @@ public class Level implements Serializable {
         this.platforms = platforms;
     }
 
-    private int width;
     public int getWidth() {
         return width;
     }
 
-
-    private int height;
     public int getHeight() {
         return height;
     }
-    private Random rnd = new Random();
 
-    private String levelName;
     public String getLevelName() {
         return levelName;
     }
 
-
-    private Set<Wall> mazeLocations;
     public Set<Wall> getMazeLocations() { return mazeLocations; }
+
     public void setMazeLocations(Set<Wall> mazeLocations) {
         this.mazeLocations = mazeLocations;
     }
-
-
-    private Set<Separator> subLevelSeparators;
     public Set<Separator> getSubLevelSeparators() { return subLevelSeparators; }
+
     public void setSubLevelSeparators(Set<Separator> subLevelSeparators) { this.subLevelSeparators = subLevelSeparators; }
 
-
-    private Set<Entrance> entrances;
     public Set<Entrance> getEntrances() {
         return entrances;
     }
@@ -76,44 +77,36 @@ public class Level implements Serializable {
         this.entrances = entrances;
     }
 
-
-    private Map<Snake, Point[]> snakesBodies;
     public Map<Snake, Point[]> getSnakesBodies() { return snakesBodies; }
+
     public void setSnakesBodies(Map<Snake, Point[]> snakesBodies) {
         this.snakesBodies = snakesBodies;
     }
 
-
-    private int xAxis;
     public int getXAxis() {
         return xAxis;
     }
 
-
-    private int yAxis;
     public int getYAxis() {
         return yAxis;
     }
-
-
-    private Map<Sublevels, List<Point>> subLevels;
 
     public Map<Sublevels, List<Point>> getSubLevels() {
         return subLevels;
     }
 
     public Level(Config config, String level) {
-    levelName = level;
-    snakesBodies = new HashMap<>();
-    mazeLocations = new HashSet<>();
-    subLevelSeparators = new HashSet<>();
-    entrances = new HashSet<>();
-    subLevels = new HashMap<>();
-    platforms = new HashSet<>();
-    width = config.getFieldWidth();
-    height = config.getFieldHeight();
-    generateBlock();
-    //generateFood();
+        levelName = level;
+        snakesBodies = new HashMap<>();
+        mazeLocations = new HashSet<>();
+        subLevelSeparators = new HashSet<>();
+        entrances = new HashSet<>();
+        subLevels = new HashMap<>();
+        platforms = new HashSet<>();
+        width = config.getFieldWidth();
+        height = config.getFieldHeight();
+        generateBlock();
+        //generateFood();
   }
 
   public void initializeSnakes(List<Snake> snakes) {
