@@ -6,13 +6,15 @@ import lombok.Setter;
 
 public class Entrance {
 
-  @Getter
   private Point location;
-  @Getter
   private char name;
-  @Getter
-  @Setter
   private boolean open;
+
+  public Point getLocation(){ return location; }
+
+  public char getName(){ return name; }
+
+  public void setOpen(boolean isOpen) { open = isOpen; }
 
   public Entrance(int x, int y, char name, boolean opened) {
     location = new Point(x, y);

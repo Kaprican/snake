@@ -12,26 +12,39 @@ import lombok.Setter;
 
 public class Game {
 
-  @Setter
-  @Getter
   private List<Snake> snakes = new ArrayList<>();
-  @Setter
-  @Getter
   private int score;
-  @Getter
   private Config config;
-  @Getter
-  @Setter
   private Map<Integer, Entrance> closedEntrances = new HashMap<>();
-  @Getter
   private List<Level> levels = new ArrayList<>();
-  @Getter
-  @Setter
   private boolean paused = false;
-  @Getter
-  @Setter
   private Level currentLevel;
   private boolean twoPlayers;
+
+  public List<Snake> getSnakes() { return snakes; }
+
+  public void setSnakes(List<Snake> list) { snakes = list; }
+
+  public int getScore() { return  score; }
+
+  public void setScore(int value) { score = value; }
+
+  public Config getConfig() { return config; }
+
+  public Map<Integer, Entrance> getClosedEntrances() { return  closedEntrances; }
+
+  public void setClosedEntrances(Map<Integer, Entrance> value) { closedEntrances = value; }
+
+  public List<Level> getLevels() { return levels; }
+
+  public boolean isPaused() { return paused; }
+
+  public void setPaused(boolean isPaused) {paused = isPaused; }
+
+  public Level getCurrentLevel() { return currentLevel; }
+
+  public void setCurrentLevel(Level level) { currentLevel = level; }
+
 
   public Game(Config config, Level level, boolean twoPlayers) {
     this.config = config;

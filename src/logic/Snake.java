@@ -1,16 +1,9 @@
 package logic;
 
-import lombok.Getter;
-import lombok.Setter;
-
 public class Snake {
 
-  @Getter
   private int length;
-  @Getter
-  @Setter
   private int capacity;
-  @Getter
   private boolean alive;
   private boolean right;
   private boolean left;
@@ -22,6 +15,13 @@ public class Snake {
     alive = true;
   }
 
+  public int getLength() { return length; }
+
+  public int getCapacity() { return capacity; }
+
+  public void setCapacity (int value) { capacity = value; }
+
+  public boolean isAlive() { return alive; }
 
   public boolean looksRight() {
     return right;

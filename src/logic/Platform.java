@@ -1,19 +1,21 @@
 package logic;
 
-import lombok.Getter;
-import lombok.Setter;
 
 import java.awt.*;
 
 public class Platform {
 
-  @Getter
   private Point location;
-  @Getter
   private int value;
-  @Getter
-  @Setter
   private int currentValue;
+
+  public Point getLocation(){ return location; }
+
+  public int getValue() { return value; }
+
+  public int getCurrentValue() { return currentValue; }
+
+  public void setCurrentValue(int value) { currentValue = value; }
 
   public Platform(Point coordinate, int value) {
     this.location = coordinate;

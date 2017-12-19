@@ -6,8 +6,9 @@ import lombok.Getter;
 
 public class Wall implements Serializable {
 
-  @Getter
   private Point location;
+
+  public Point getLocation(){ return location;}
 
   public Wall(int x, int y) {
     location = new Point(x, y);

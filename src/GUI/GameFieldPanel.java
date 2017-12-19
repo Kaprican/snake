@@ -12,7 +12,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
 import logic.*;
-import lombok.Getter;
 
 
 public class GameFieldPanel extends JPanel implements Serializable {
@@ -33,8 +32,11 @@ public class GameFieldPanel extends JPanel implements Serializable {
   private Image blockIm;
   private Image platformIm;
 
-  @Getter
   private Level level;
+
+  public Level getLevel () {
+    return level;
+  }
 
   public GameFieldPanel(Game game, Level currentLevel) {
     initGameSettings(game, currentLevel);

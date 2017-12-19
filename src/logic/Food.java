@@ -8,6 +8,8 @@ public class Food {
   @Getter
   private Point location;
 
+  public Point getLocation(){ return location;}
+
   public Food(Point location) {
     this.location = location;
   }
