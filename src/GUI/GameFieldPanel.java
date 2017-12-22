@@ -29,8 +29,12 @@ public class GameFieldPanel extends JPanel implements Serializable {
   private Image closedImage;
   private Image backgroundImage;
   private Image blackRoomIm;
-  private Image blockIm;
-  private Image platformIm;
+  private Image blueBlockIm;
+  private Image redBlockIm;
+  private Image yellowBlockIm;
+  private Image bluePlatformIm;
+  private Image redPlatformIm;
+  private Image yellowPlatformIm;
 
   private Level level;
 
@@ -83,10 +87,18 @@ public class GameFieldPanel extends JPanel implements Serializable {
     backgroundImage = b.getImage();
     ImageIcon r = new ImageIcon("light_off.jpg");
     blackRoomIm = r.getImage();
-    ImageIcon bl = new ImageIcon("Block.png");
-    blockIm = bl.getImage();
-    ImageIcon pl = new ImageIcon("platf.jpg");
-    platformIm = pl.getImage();
+    ImageIcon blY = new ImageIcon("block_y.png");
+    yellowBlockIm = blY.getImage();
+    ImageIcon blB = new ImageIcon("block_b.png");
+    blueBlockIm = blB.getImage();
+    ImageIcon blR = new ImageIcon("block_r.png");
+    redBlockIm = blR.getImage();
+    ImageIcon plR = new ImageIcon("circle_red.png");
+    redPlatformIm = plR.getImage();
+    ImageIcon plY = new ImageIcon("circle_yellow.png");
+    yellowPlatformIm = plY.getImage();
+    ImageIcon plB = new ImageIcon("circle_blue.png");
+    bluePlatformIm = plB.getImage();
   }
 
   private void paintGameOver(Graphics g) {
@@ -151,11 +163,13 @@ public class GameFieldPanel extends JPanel implements Serializable {
               g.setColor(Color.cyan);
               offset = 250;
           }
+          /*
           if(snake.getCapacity() == snake.getLength()){
               g.setColor(Color.red);
           }
-          g.drawString("Capasity:", width * pixel + 100, offset);
+          g.drawString("Capacity:", width * pixel + 100, offset);
           g.drawString( snake.getCapacity() + "/" + snake.getLength(), width * pixel + 100, offset + 25);
+          */
       }
   }
 
@@ -167,15 +181,34 @@ public class GameFieldPanel extends JPanel implements Serializable {
 
   private void paintPlatforms(Graphics g) {
     Set<Platform> platforms = level.getPlatforms();
+    if (platforms.size() == 0)
+        return;
     for (Platform platform : platforms) {
-      Point location = platform.getLocation();
-      g.drawImage(platformIm, location.x * pixel, location.y * pixel, this);
-    }
+        Point location = platform.getLocation();
+        if (platform.getColor().equals(Colors.Yellow)){
+            g.drawImage(yellowPlatformIm, location.x * pixel, location.y * pixel, this);
+        } else if (platform.getColor().equals(Colors.Blue)){
+            g.drawImage(bluePlatformIm, location.x * pixel, location.y * pixel, this);
+        } else if (platform.getColor().equals(Colors.Red)) {
+            g.drawImage(redPlatformIm, location.x * pixel, location.y * pixel, this);
+        }
+      }
   }
 
    private void paintBlock(Graphics g) {
-     Point location = level.getBlock().getLocation();
-     g.drawImage(blockIm, location.x * pixel, location.y * pixel, this);
+     Set<Block> blocks = level.getBlocks();
+     if (blocks.size() == 0)
+         return;
+     for (Block block : blocks){
+         Point location = block.getLocation();
+         if (block.getColor().equals(Colors.Yellow)){
+             g.drawImage(yellowBlockIm, location.x * pixel, location.y * pixel, this);
+         } else if (block.getColor().equals(Colors.Blue)){
+             g.drawImage(blueBlockIm, location.x * pixel, location.y * pixel, this);
+         } else if (block.getColor().equals(Colors.Red)) {
+             g.drawImage(redBlockIm, location.x * pixel, location.y * pixel, this);
+         }
+     }
    }
 
   private void paintFood(Graphics g) {
@@ -231,7 +264,7 @@ public class GameFieldPanel extends JPanel implements Serializable {
         paintEntrances(g);
         paintFood(g);
         paintBlock(g);
-        paintCapacity(g);
+        //paintCapacity(g);
         if (game.getCurrentLevel().getSubLevels().size() != 0) {
           handleSublevels(g);
         }

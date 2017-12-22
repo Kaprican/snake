@@ -162,14 +162,7 @@ public class Game {
     }
   }
 
-  public void tryTakeBlock(Snake snake){
-    Point[] snakeLocations = currentLevel.getSnakesBodies().get(snake);
-    Point snakeHead = snakeLocations[0];
-    for(Block block: currentLevel.getBlocks()){
-        if(snakeHead.x == block.getLocation().x && snakeHead.y == block.getLocation().y){
 
-        }
-    }
     /*
     if (snakeHead.x == currentLevel.getBlock().getLocation().x
         && snakeHead.y == currentLevel.getBlock().getLocation().y) {
@@ -180,30 +173,47 @@ public class Game {
         snake.takeBlock(blockValue);
         currentLevel.generateBlock();
     }*/
+
+  public void tryMoveBlock() {
+    for (Snake snake : snakes){
+        Point[] snakeLocations = currentLevel.getSnakesBodies().get(snake);
+        Point snakeHead = snakeLocations[0];
+        for (Block block : currentLevel.getBlocks()) {
+            if (block.getLocation().equals(snakeHead)){
+                moveBlock(snake, block);
+            }
+        }
+    }
+
   }
 
-  public void tryMoveBlock(Set<Block> blocks) {
-    int x = point.x;
-    int y = point.y;
-    Point next = new Point(x, y);
-    for (Snake snake : snakes){
-      if (snake.looksUp()){
-          next.y -= 1;
+  public void moveBlock(Snake snake, Block block){
+      Point location = takeBlockLocation(snake, block);
+      for (Wall wall : currentLevel.getMazeLocations()){
+          if (wall.getLocation().equals(location)){
+              snake.die();
+              return;
+          }
       }
-      if (snake.looksDown()){
-          next.y += 1;
-      }
-      if (snake.looksLeft()){
-          next.x -= 1;
-      }
-      if (snake.looksRight()){
-          next.x += 1;
-      }
-    }
-    if (currentLevel.getMazeLocations().contains(next)){
+      block.setLocation(location.x, location.y);
+  }
 
+  public Point takeBlockLocation(Snake snake, Block block){
+    Point point = block.getLocation();
+    Point location = new Point(point.x, point.y);
+    if (snake.looksUp()){
+      location.y -= 1;
     }
-
+    else if (snake.looksDown()){
+      location.y += 1;
+    }
+    else if (snake.looksLeft()){
+      location.x -= 1;
+    }
+    else if (snake.looksRight()){
+      location.x += 1;
+    }
+    return location;
   }
 /*
   public void tryPutBlocks(Snake snake){

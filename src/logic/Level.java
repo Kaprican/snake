@@ -107,7 +107,8 @@ public class Level implements Serializable {
         platforms = new HashSet<>();
         width = config.getFieldWidth();
         height = config.getFieldHeight();
-        generateBlocks();
+        blocks = new HashSet<>();
+        //generateBlocks();
         //generateFood();
   }
 
@@ -123,7 +124,7 @@ public class Level implements Serializable {
   }
 
   public void generateBlocks(){
-    for(Platform platform: platforms){
+    for(Platform platform : platforms){
       blocks.add(new Block(findFreeSpot(), 1, platform.getColor()));
     }
     /*int blockValue = 1;

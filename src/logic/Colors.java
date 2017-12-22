@@ -1,6 +1,6 @@
 package logic;
 
-public enum Color {
+public enum Colors {
     Blue,
     Red,
     Yellow
