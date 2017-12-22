@@ -2,10 +2,7 @@ package logic;
 
 
 import java.awt.Point;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 import lombok.Getter;
 import lombok.Setter;
@@ -168,6 +165,12 @@ public class Game {
   public void tryTakeBlock(Snake snake){
     Point[] snakeLocations = currentLevel.getSnakesBodies().get(snake);
     Point snakeHead = snakeLocations[0];
+    for(Block block: currentLevel.getBlocks()){
+        if(snakeHead.x == block.getLocation().x && snakeHead.y == block.getLocation().y){
+
+        }
+    }
+    /*
     if (snakeHead.x == currentLevel.getBlock().getLocation().x
         && snakeHead.y == currentLevel.getBlock().getLocation().y) {
         int blockValue = currentLevel.getBlock().getValue();
@@ -176,9 +179,33 @@ public class Game {
         }
         snake.takeBlock(blockValue);
         currentLevel.generateBlock();
-    }
+    }*/
   }
 
+  public void tryMoveBlock(Set<Block> blocks) {
+    int x = point.x;
+    int y = point.y;
+    Point next = new Point(x, y);
+    for (Snake snake : snakes){
+      if (snake.looksUp()){
+          next.y -= 1;
+      }
+      if (snake.looksDown()){
+          next.y += 1;
+      }
+      if (snake.looksLeft()){
+          next.x -= 1;
+      }
+      if (snake.looksRight()){
+          next.x += 1;
+      }
+    }
+    if (currentLevel.getMazeLocations().contains(next)){
+
+    }
+
+  }
+/*
   public void tryPutBlocks(Snake snake){
       Point[] snakeLocations = currentLevel.getSnakesBodies().get(snake);
       Point snakeHead = snakeLocations[0];
@@ -198,13 +225,14 @@ public class Game {
                   }
               }
           }
-          /*snake.eatFood();
+          snake.eatFood();
           currentLevel.generateFood();
           int i = snake.getLength() - 1;
-          snakeLocations[i] = new Point(snakeLocations[i - 1].x, snakeLocations[i - 1].y); */
+          snakeLocations[i] = new Point(snakeLocations[i - 1].x, snakeLocations[i - 1].y);
       }
 
   }
+      */
 
   public void moveSnake(Level level, Snake snake) {
     Point[] snakeLocations = level.getSnakesBodies().get(snake);

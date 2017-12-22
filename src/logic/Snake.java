@@ -3,7 +3,6 @@ package logic;
 public class Snake {
 
   private int length;
-  private int capacity;
   private boolean alive;
   private boolean right;
   private boolean left;
@@ -16,10 +15,6 @@ public class Snake {
   }
 
   public int getLength() { return length; }
-
-  public int getCapacity() { return capacity; }
-
-  public void setCapacity (int value) { capacity = value; }
 
   public boolean isAlive() { return alive; }
 
@@ -85,7 +80,4 @@ public class Snake {
     stopSnake();
   }
 
-  public void takeBlock(int value) {
-      capacity += value;
-  }
 }

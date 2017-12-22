@@ -8,10 +8,13 @@ public class Platform {
   private Point location;
   private int value;
   private int currentValue;
+  private Color color;
 
   public Point getLocation(){ return location; }
 
   public int getValue() { return value; }
+
+  public Color getColor(){ return color; }
 
   public int getCurrentValue() { return currentValue; }
 

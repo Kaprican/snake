@@ -107,7 +107,7 @@ public class Serialization {
           maze.add(new Wall(j, i));
         }
          if (line.charAt(j) == '@') {
-           platforms.add(new Platform(new Point(j, i), 3));
+           platforms.add(new Platform(new Point(j, i), 1));
          }
         if (Character.isLowerCase(line.charAt(j))) {
           //вход\выход из уровня, открытый
@@ -129,7 +129,7 @@ public class Serialization {
     level.createSublevels(separators);
     level.setPlatforms(platforms);
     level.generateFood();
-    level.generateBlock();
+    level.generateBlocks();
     return level;
   }
 

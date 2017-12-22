@@ -14,7 +14,7 @@ import lombok.Setter;
 public class Level implements Serializable {
 
     private Food food;
-    private Block block;
+    private Set<Block> blocks;
     private Set<Platform> platforms;
     private int width;
     private int height;
@@ -35,16 +35,18 @@ public class Level implements Serializable {
         this.food = food;
     }
 
-    public Block getBlock(){
+    /*public Block getBlock(){
       return block;
     }
     public void setBlock(Block block) {
         this.block = block;
-    }
+    }*/
+    public Set<Block> getBlocks() {return blocks;}
 
     public Set<Platform> getPlatforms() {
         return platforms;
     }
+
     public void setPlatforms(Set<Platform> platforms) {
         this.platforms = platforms;
     }
@@ -105,7 +107,7 @@ public class Level implements Serializable {
         platforms = new HashSet<>();
         width = config.getFieldWidth();
         height = config.getFieldHeight();
-        generateBlock();
+        generateBlocks();
         //generateFood();
   }
 
@@ -120,9 +122,12 @@ public class Level implements Serializable {
     food = new Food(findFreeSpot());
   }
 
-  public void generateBlock(){
-    int blockValue = rnd.nextInt(3) + 1;
-    block = new Block(findFreeSpot(), blockValue);
+  public void generateBlocks(){
+    for(Platform platform: platforms){
+      blocks.add(new Block(findFreeSpot(), 1, platform.getColor()));
+    }
+    /*int blockValue = 1;
+    block = new Block(findFreeSpot(), blockValue);*/
   }
 
   public void createRandomField() {
