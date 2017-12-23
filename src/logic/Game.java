@@ -12,7 +12,7 @@ public class Game {
   private List<Snake> snakes = new ArrayList<>();
   private int score;
   private Config config;
-  private Map<Platform, Entrance> closedEntrances = new HashMap<>();
+  private Map<Integer, Entrance> closedEntrances = new HashMap<>();
   private List<Level> levels = new ArrayList<>();
   private boolean paused = false;
   private Level currentLevel;
@@ -28,9 +28,9 @@ public class Game {
 
   public Config getConfig() { return config; }
 
-  public Map<Platform, Entrance> getClosedEntrances() { return  closedEntrances; }
+  public Map<Integer, Entrance> getClosedEntrances() { return  closedEntrances; }
 
-  public void setClosedEntrances(Map<Platform, Entrance> value) { closedEntrances = value; }
+  public void setClosedEntrances(Map<Integer, Entrance> value) { closedEntrances = value; }
 
   public List<Level> getLevels() { return levels; }
 
@@ -74,24 +74,39 @@ public class Game {
 
   private void addScore() {
     setScore(getScore() + 10);
-    tryToOpenEntrance();
+    //tryToOpenEntrance();
   }
 
-  private void tryToOpenEntrance() {
-      opened:
+  public void tryPushPlatform(){
       for (Level level : levels) {
           for (Platform platform : level.getPlatforms()) {
-              for (Entrance entrance : level.getEntrances()) {
-                  if (platform.getValue() == platform.getCurrentValue()) {
-                      entrance.setOpen(true);
-
-                      getClosedEntrances().remove(platform);
-                      break opened;
+              for (Block block: level.getBlocks()){
+                  if (platform.getLocation().x == block.getLocation().x &&
+                      platform.getLocation().y == block.getLocation().y &&
+                      platform.getColor() == block.getColor()){
+                      platform.setPushed(true);
                   }
               }
           }
       }
   }
+
+  public void tryToOpenEntrance() {
+      for (Level level : levels) {
+          for (Entrance entrance: level.getEntrances()) {
+              for (Platform platform : level.getPlatforms()) {
+                  if (platform.isPushed()) {
+                      entrance.setPushed(platform.getColor(), true);
+                  }
+              }
+              if(entrance.isAllPushed()){
+                  entrance.setOpen(true);
+                  getClosedEntrances().remove(entrance.getCountOfPlatforms());
+              }
+          }
+          }
+      }
+
 
 
   /**
@@ -101,16 +116,16 @@ public class Game {
    * @param levels уровни, которые существуют в этой игре
    * @return словарик, где ключь - это очки, а значение - "вход"/дверь уровня
    */
-  private Map<Platform, Entrance> getClosedEntrances(List<Level> levels) {
-    Map<Platform, Entrance> closedEntrances = new HashMap<>();
+  private Map<Integer, Entrance> getClosedEntrances(List<Level> levels) {
+    Map<Integer, Entrance> closedEntrances = new HashMap<>();
     //Integer count = 50;
     for (Level level : levels) {
-        for(Platform platform : level.getPlatforms()){
             for (Entrance entrance : level.getEntrances()) {
-                if (!entrance.isOpen()) {
-                    closedEntrances.put(platform, entrance);
+                for(Platform platform: level.getPlatforms())
+                    if (!entrance.isOpen()) {
+                        closedEntrances.put(entrance.getCountOfPlatforms(), entrance);
                  }
-            }
+
         }
     }
 
@@ -215,6 +230,8 @@ public class Game {
     }
     return location;
   }
+
+
 /*
   public void tryPutBlocks(Snake snake){
       Point[] snakeLocations = currentLevel.getSnakesBodies().get(snake);

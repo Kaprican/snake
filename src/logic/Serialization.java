@@ -106,17 +106,33 @@ public class Serialization {
         if (line.charAt(j) == '#') {
           maze.add(new Wall(j, i));
         }
-         if (line.charAt(j) == '@') {
-           platforms.add(new Platform(new Point(j, i), 1, Colors.Red));
+         if (line.charAt(j) == '1') {
+           platforms.add(new Platform(new Point(j, i), false, Colors.Red));
          }
+          if (line.charAt(j) == '2') {
+              platforms.add(new Platform(new Point(j, i), false, Colors.Blue));
+          }
+          if (line.charAt(j) == '3') {
+              platforms.add(new Platform(new Point(j, i), false, Colors.Yellow));
+          }
         if (Character.isLowerCase(line.charAt(j))) {
           //вход\выход из уровня, открытый
-          entrances.add(new Entrance(j, i, Character.toLowerCase(line.charAt(j)), true));
+          entrances.add(new Entrance(j, i, Character.toLowerCase(line.charAt(j)), true, 0));
         }
         if (Character.isUpperCase(line.charAt(j))) {
           //вход\выход из уровня, закрыт
-          entrances
-              .add(new Entrance(j, i, Character.toLowerCase(line.charAt(j)), false));
+            if(line.charAt(j) == 'D'){
+                entrances
+                .add(new Entrance(j, i, Character.toLowerCase(line.charAt(j)), false, 2));
+            }
+            else if(line.charAt(j) == 'W'){
+                entrances
+                    .add(new Entrance(j, i, Character.toLowerCase(line.charAt(j)), false, 3));
+            }
+            else{
+                entrances
+                    .add(new Entrance(j, i, Character.toLowerCase(line.charAt(j)), false, 1));
+            }
         }
         width = j;
       }

@@ -23,8 +23,8 @@ public class LevelTests {
   private Snake snake = new Snake();
   private Point openedEntry = new Point(0, 0);
   private Point closedEntry = new Point(0, 1);
-  private Entrance openedEntrance = new Entrance(openedEntry.x, openedEntry.y, 'a', true);
-  private Entrance closedEntrance = new Entrance(closedEntry.x, closedEntry.y, 'A', false);
+  private Entrance openedEntrance = new Entrance(openedEntry.x, openedEntry.y, 'a', true, 1);
+  private Entrance closedEntrance = new Entrance(closedEntry.x, closedEntry.y, 'A', false, 1);
 
   @Before
   public void setUp() {

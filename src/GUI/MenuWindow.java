@@ -33,7 +33,7 @@ public class MenuWindow extends JFrame {
     setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     setLocation(600, 400);
     setTitle("Snake: menu");
-    config = new Config(25, 25, 25, 150);
+    config = new Config(25, 25, 25, 250);
 
     buttonMultiplayer = new JButton(" Multiplayer game ");
     buttonStart = new JButton(" Start new game ");
@@ -177,7 +177,7 @@ public class MenuWindow extends JFrame {
     filenames.add("Level_1.txt");
     filenames.add("Level_2.txt");
     filenames.add("Level_3.txt");
-
+    filenames.add("Level_4.txt");
     for (String fileName : filenames) {
       levels.add(Serialization.deserialize(fileName));
     }

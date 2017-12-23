@@ -6,24 +6,24 @@ import java.awt.*;
 public class Platform {
 
   private Point location;
-  private int value;
-  private int currentValue;
+  private boolean isPushed;
   private Colors color;
 
   public Point getLocation(){ return location; }
 
-  public int getValue() { return value; }
+  public void setPushed(boolean pushed) {
+      isPushed = pushed;
+  }
+
+  public boolean isPushed() {
+      return isPushed;
+  }
 
   public Colors getColor(){ return color; }
 
-  public int getCurrentValue() { return currentValue; }
-
-  public void setCurrentValue(int value) { currentValue = value; }
-
-  public Platform(Point coordinate, int value, Colors color) {
+  public Platform(Point coordinate, boolean isPushed, Colors color) {
     this.location = coordinate;
-    this.value = value;
-    this.currentValue = 0;
+    this.isPushed = isPushed;
     this.color = color;
   }
 }

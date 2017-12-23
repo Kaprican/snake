@@ -125,10 +125,17 @@ public class Level implements Serializable {
 
   public void generateBlocks(){
     for(Platform platform : platforms){
-      blocks.add(new Block(findFreeSpot(), 1, platform.getColor()));
+        Block block = new Block(findFreeSpot(), 1, platform.getColor());
+        if(block.getLocation().x == 1)
+            block.setLocation(2, block.getLocation().y);
+        if(block.getLocation().y == 1)
+            block.setLocation(block.getLocation().x, 2);
+        if(block.getLocation().x == 1)
+            block.setLocation(22, block.getLocation().y);
+        if(block.getLocation().y == 1)
+            block.setLocation(block.getLocation().x, 22);
+        blocks.add(block);
     }
-    /*int blockValue = 1;
-    block = new Block(findFreeSpot(), blockValue);*/
   }
 
   public void createRandomField() {
